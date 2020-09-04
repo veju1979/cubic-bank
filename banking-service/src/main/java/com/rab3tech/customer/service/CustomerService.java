@@ -41,6 +41,10 @@ public interface CustomerService {
 
 	String approveDisApprovePayee(PayeeApproveVO payeeApproveVO);
 
+	byte[] findPhotoByAC(String accountId);
+
+	CustomerAccountInfoVO findCustomerAccountInfo(String customerId);
+
 	
 
 }

@@ -165,6 +165,20 @@ public class CustomerUIController {
 		model.addAttribute("message", "Your account has been setup successfully , please check your email.");
 		return "customer/login";
 	}
+	
+	@GetMapping("/customers/acphoto")
+	public void findCustomerPhotoByAc(@RequestParam String accNumber,HttpServletResponse response) throws IOException {
+	   byte[] photo=customerService.findPhotoByAC(accNumber);
+	   response.setContentType("image/png");
+	   ServletOutputStream outputStream=response.getOutputStream();
+	   if(photo!=null) {
+		   outputStream.write(photo);
+	   }else {
+		   outputStream.write(new byte[] {});
+	   }
+	   outputStream.flush();
+	   outputStream.close();
+	}
 
   /*
 	@GetMapping(value = { "/customer/account/enquiry", "/", "/mocha", "/welcome" })

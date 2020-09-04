@@ -12,6 +12,26 @@ public class CustomerAccountInfoVO {
 	private float avBalance;
 	private Date StatusAsOf;
 	private AccountTypeVO accountType;
+	private String name;
+	private String acccountType;
+	
+	
+
+	public String getAcccountType() {
+		return acccountType;
+	}
+
+	public void setAcccountType(String acccountType) {
+		this.acccountType = acccountType;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public long getId() {
 		return id;

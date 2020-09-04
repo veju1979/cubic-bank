@@ -3,9 +3,17 @@ package com.rab3tech.vo;
 import java.util.List;
 
 public class FromToAccountsVO {
-
+    private String currentBalance;
 	private String fromAccount;
 	private List<String> toAccounts;
+
+	public String getCurrentBalance() {
+		return currentBalance;
+	}
+
+	public void setCurrentBalance(String currentBalance) {
+		this.currentBalance = currentBalance;
+	}
 
 	public String getFromAccount() {
 		return fromAccount;

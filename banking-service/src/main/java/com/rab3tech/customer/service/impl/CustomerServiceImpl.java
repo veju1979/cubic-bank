@@ -188,6 +188,14 @@ public class CustomerServiceImpl implements CustomerService {
 		///customerRepository.save(customer);
 	}
 	
+	@Override
+	public byte[] findPhotoByAC(String accountNumber) {
+		CustomerAccountInfo customerAccountInfo=customerAccountInfoRepository.findByAccountNumber(accountNumber).get();
+		Customer customer=customerRepository.findByEmail(customerAccountInfo.getCustomerId().getLoginid()).get();
+		return customer.getImage(); 
+		
+	}
+	
 	
 	@Override
 	public byte[] findPhotoByid(int cid) {
@@ -255,6 +263,18 @@ public class CustomerServiceImpl implements CustomerService {
 	   }
 	   
 	   return customerVO;
+   }
+   
+   @Override
+   public CustomerAccountInfoVO findCustomerAccountInfo(String customerId){
+	   CustomerAccountInfo customerAccountInfo=customerAccountInfoRepository.findByLoginId(customerId).get();
+	   CustomerAccountInfoVO accountInfoVO=new CustomerAccountInfoVO();
+	   BeanUtils.copyProperties(customerAccountInfo, accountInfoVO);
+	   
+	   accountInfoVO.setName(customerAccountInfo.getAccountType().getName());
+	   accountInfoVO.setAcccountType(customerAccountInfo.getAccountType().getName());
+	   
+	   return accountInfoVO;
    }
 
       @Override

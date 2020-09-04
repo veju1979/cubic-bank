@@ -38,6 +38,21 @@ public class CustomerRestController {
 	private CustomerService customerService;
 	
 	
+	@GetMapping("/amount/words") 
+	public String convertAmountInWords(int amount) {
+		if(amount==100){
+			return "HUNDRED";
+		}
+		if(amount==1000){
+			return "THOUSAND";
+		}
+		if(amount==5000){
+			return "5 THOUSAND";
+		}
+		return "NA";
+	}
+	
+	
 	@GetMapping("/scustomers")
 	public List<CustomerVO> searchCustomers(@RequestParam String searchText){
 		CustomerVO customerVO=customerService.searchCustomer(searchText);

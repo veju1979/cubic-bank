@@ -31,12 +31,18 @@
 }
 </style>
 
-<script  type="text/javascript">
+
+
+<script  th:inline="javascript">
   
   
    function loadData(){
+	   
+	   /*<![CDATA[*/
+       var username = /*[[${session.userSessionVO.username}]]*/;
+     /*]]>*/
 	   //When page is loaded then this method will be called
-	   fetch("/v3/customer/from-to-accounts?loginid=technohunk100@gmail.com").then(response=>response.json()).then(function(data){
+	   fetch("/v3/customer/from-to-accounts?loginid="+username).then(response=>response.json()).then(function(data){
              console.log(data);		
              $("#fromAccount").append($("<option />").val(data.fromAccount).text(data.fromAccount));
              var arrayData=data.toAccounts;
@@ -44,11 +50,30 @@
             	 $("#toAccount").append($("<option />").val(arrayData[x]).text(arrayData[x]));
              }
              
+             $("#cbalance").html(data.currentBalance);
+             
 	   });
    }
 
    //This code will execute when page is loaded!!!
   $(document).ready(function(){
+	  
+	   $("#amount").blur(function(){
+		   var aamount=$(this).val();
+		   fetch("/v3/amount/words?amount="+aamount)
+		          .then(response=>response.text()).then(function(data){
+			              $("#amountWord").html(data);
+		   }); //end of the fetch
+	   }); //end of the event
+	  
+	   $("#toAccount").change(function(){
+		     var selectedVal=$(this).val();
+		     var tokens=selectedVal.split("-");
+		     var accountNumber=tokens[0].trim();
+		     $("#cphoto").attr("src","/customers/acphoto?accNumber="+accountNumber);
+		     
+	   });
+	  
 	  loadData();
   });
 
@@ -88,7 +113,11 @@
 						<tr>
 							<td style="width: 50%">
 								<div>
-									<label for="fromAccount">From Account:</label> <br />
+									<label for="fromAccount">From Account:
+									
+									 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+									 Current Balance : <span id="cbalance" style="color:red;"></span>	 
+									</label> <br />
 									<select name="fromAccount" class="form-control" id="fromAccount">
 									</select>
 								</div>
@@ -105,6 +134,24 @@
 
 							</td>
 						</tr>
+						
+						
+						<tr>
+							<td>
+
+								<div>
+									<label for="amount">Amount:</label> <br /> 
+									<input type="text"
+										 class="form-control" th:field="*{amount}">
+									<span id="amountWord" style="color:blue;"></span>	 
+								</div>
+							</td>
+							<td>
+							 &nbsp;
+							  <img src="" id="cphoto" style="height: 120px;">
+							</td>
+						</tr>
+						
 
 
 						<tr>
@@ -117,6 +164,7 @@
 							</td>
 							<td>
 							 &nbsp;
+							  <img src="" id="cphoto" style="height: 120px;">
 							</td>
 						</tr>
 
