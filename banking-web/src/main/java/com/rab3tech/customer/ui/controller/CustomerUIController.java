@@ -28,7 +28,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -284,6 +283,24 @@ public class CustomerUIController {
 		model.addAttribute("fundTransferVO",fundTransferVO);
 		return "customer/fundTransfer";
 	}
+	
+	
+	@PostMapping("/customer/fundTransfer")
+	public String fundTransferPost(@ModelAttribute("fundTransferVO") FundTransferVO fundTransferVO, Model model) {
+		return "customer/fundTransferReview";
+	}
+
+	
+	@PostMapping("/customer/fundTransferSubmit")
+	public String fundTransferSubmit(@ModelAttribute("fundTransferVO") FundTransferVO fundTransferVO, Model model) {
+		//validate OTP 
+		//deduct money from sender and credit to account
+		//Make a transaction history
+		//make a su9mmary etc
+		return "customer/fundSummary";
+	}
+	
+	
 	
 	
 

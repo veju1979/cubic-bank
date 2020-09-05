@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rab3tech.customer.service.CustomerService;
+import com.rab3tech.utils.Utils;
 import com.rab3tech.vo.CustomerAccountInfoVO;
 import com.rab3tech.vo.FromToAccountsVO;
 import com.rab3tech.vo.PayeeInfoVO;
@@ -41,4 +42,11 @@ public class CustomerFundTransferController {
 		
 		return fromToAccountsVO;
 	}
+	
+	@GetMapping("/transaction/otp")
+	public String transactionOtp(@RequestParam("username") String username) {
+		 System.out.println("String.valueOf(Utils.generateURN() = "+Utils.generateURN());
+         return "generated"; 	
+	}	
+	
 }
