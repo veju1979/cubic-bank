@@ -1,9 +1,8 @@
 package com.rab3tech.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MathematicsTest {
@@ -16,7 +15,6 @@ public class MathematicsTest {
 	}
 
 	@Test
-	@Ignore
 	public void testCalculateWhenNumPositive() {
 		int result=mathematics.calculate(3, 4);
         assertEquals(13, result); 

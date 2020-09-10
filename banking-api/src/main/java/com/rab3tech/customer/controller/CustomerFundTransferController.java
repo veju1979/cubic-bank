@@ -27,7 +27,6 @@ public class CustomerFundTransferController {
 	//in REST API ,We cannot use session , since it is always stateless
 	@GetMapping("/customer/from-to-accounts")
 	public FromToAccountsVO getCustomerFromToAccounts(@RequestParam("loginid") String loginid) {
-		
 		List<PayeeInfoVO> payeeInfoVOs=customerService.registeredPayeeList(loginid);
 		List<String> toAccounts=new ArrayList<String>();
 		for(PayeeInfoVO payeeInfoVO:payeeInfoVOs){
