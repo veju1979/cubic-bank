@@ -2,8 +2,6 @@ package com.rab3tech.customer.controller;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -28,10 +26,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
 
 import com.rab3tech.customer.service.impl.CustomerEnquiryService;
-import com.rab3tech.service.exception.BankServiceException;
 import com.rab3tech.test.TestUtil;
 import com.rab3tech.vo.CustomerSavingVO;
 public class CustomerAccountEnquiryControllerTest {
