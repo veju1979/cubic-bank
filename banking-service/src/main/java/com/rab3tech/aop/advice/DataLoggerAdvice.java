@@ -55,7 +55,7 @@ private static final Logger logger = LoggerFactory.getLogger(DataLoggerAdvice.cl
 	}
 
 /*@Around("@annotation(com.rab3tech.aop.advice.TimeLogger)")
-public Object computeTime(ProceedingJoinPoint joinPoint) {
+public Object tcomputeTime(ProceedingJoinPoint joinPoint) {
 	String name=joinPoint.getSignature().getName();
 	long startTime = System.currentTimeMillis();
 	logger.info(" Method name = "+name+" is called at startTime  = "+startTime+" Millies");
@@ -71,8 +71,6 @@ public Object computeTime(ProceedingJoinPoint joinPoint) {
 	long timeTaken =endTime- startTime;
 	logger.info("Time Taken by {} is {}", name, timeTaken);
 	return object;
-}
-*/
-
+}*/
 
 }
