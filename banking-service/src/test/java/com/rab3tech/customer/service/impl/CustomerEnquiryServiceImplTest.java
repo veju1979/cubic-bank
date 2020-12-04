@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.util.Strings;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 
 import com.rab3tech.admin.dao.repository.AccountStatusRepository;
 import com.rab3tech.admin.dao.repository.AccountTypeRepository;
@@ -96,7 +98,7 @@ public class CustomerEnquiryServiceImplTest {
 	@Test
 	public void testEmailNotExistFalse() {
 			CustomerSaving customerSaving=new CustomerSaving(122,"Cubic","cubic@gmail.com","02390","NA","92828ns8w3",null,null,null,"A435");
-			Optional<CustomerSaving> optional=Optional.of(customerSaving);
+			Optional<CustomerSaving> optional=Optional.empty();
 			when(customerAccountEnquiryRepository.findByEmail("cubic@gmail.com")).thenReturn(optional);
 			boolean result=customerEnquiryServiceImpl.emailNotExist("cubic@gmail.com");
 			assertFalse(result);

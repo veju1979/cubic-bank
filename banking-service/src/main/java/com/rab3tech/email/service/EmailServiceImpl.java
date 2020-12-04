@@ -24,6 +24,7 @@ import com.rab3tech.vo.EmailVO;
 @Service
 public class EmailServiceImpl implements EmailService{
 	
+	//
 	@Autowired
 	private JavaMailSender javaMailSender;
 	

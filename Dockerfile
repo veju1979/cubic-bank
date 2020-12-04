@@ -5,6 +5,8 @@ LABEL maintainer="technohunk100@gmail.com"
 
 ENV MVN_BUILD_DIR=/build/
 
+#/
+
 RUN mkdir -p $MVN_BUILD_DIR
 
 WORKDIR $MVN_BUILD_DIR
@@ -24,6 +26,7 @@ ADD . $MVN_BUILD_DIR
 #RUN mvn clean package -DskipTests
 #FROM MAVEN_BUILD as mavenPackage
 #/build/
+#/build/banking-web/target/<jar is here>
 RUN mvn install -nsu -DskipTests 
 
 FROM openjdk:8-jre-alpine
