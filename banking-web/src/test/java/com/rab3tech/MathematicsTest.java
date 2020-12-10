@@ -17,8 +17,8 @@ public class MathematicsTest {
 	//Here we are validating method output against input
 	@Test
 	public void  testFactWhenInputZero() {
-		int actual=mathematics.fact(0);
-		assertEquals(1, actual);
+		int actual=mathematics.fact(TestCaseConstant.ZERO);
+		assertEquals(TestCaseConstant.ONE, actual);
 	}
 	
 	@Test(expected=ArithmeticException.class)

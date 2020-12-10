@@ -3,6 +3,9 @@ package com.rab3tech.vo;
 
 import java.util.Date;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 /**
  * 
  * @author nagendra
@@ -12,9 +15,14 @@ import java.util.Date;
 public class CustomerSavingVO {
 
 	private int csaid;
+	
+	@Size(min = 3, max = 20)
 	private String name;
+	
+	@Pattern(regexp=".+@.+\\.[a-z]+")
 	private String email;
 	private String mobile;
+	@Size(min = 3, max = 20)
 	private String location;
 	private String accType;
 	private String status;

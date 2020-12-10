@@ -106,6 +106,7 @@ public class CustomerRestController {
 		     mailMessage.setSubject("Regarding your passcode to change password");
 	         mailMessage.setText("Hey! "+result+" ,   your password code is  = "+passCode);
 		     mailMessage.setFrom("javahunk100@gmail.com");
+		     System.out.println("Your passcode is  = "+passCode);
 	         javaMailSender.send(mailMessage);
 	         
 		}catch (Exception e) {

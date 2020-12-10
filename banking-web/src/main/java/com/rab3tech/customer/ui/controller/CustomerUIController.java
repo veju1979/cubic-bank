@@ -199,7 +199,13 @@ public class CustomerUIController {
 	}
 	
 	@PostMapping("/customer/account/enquiry")
-	public String submitEnquiryData(@ModelAttribute CustomerSavingVO customerSavingVO, Model model) {
+	public String submitEnquiryData(@Valid @ModelAttribute CustomerSavingVO customerSavingVO,
+			BindingResult result, Model model) {
+		
+		if (result.hasErrors()) {
+	        return "customer/customerEnquiry";
+	    }
+		
 		boolean status = customerEnquiryService.emailNotExist(customerSavingVO.getEmail());
 		logger.info("Executing submitEnquiryData");
 		if (status) {

@@ -20,7 +20,7 @@ public class MathematicsAddTest {
 	private MathService mathService;
 	
 	@InjectMocks
-    private 	Mathematics mathematics=new Mathematics();
+    private Mathematics mathematics =new Mathematics();
 	
 	@Before
 	public void init() {
@@ -30,9 +30,9 @@ public class MathematicsAddTest {
 	@Test
     public void testAddWhenNum1Is4() {
 		    //stubbing the mathService magic behavior
-    		when(mathService.magic(4,2)).thenReturn(16);
+    		when(mathService.magic(4,2)).thenReturn(20);
             int result = mathematics.add(4,2);
-            assertEquals(21,result);
+            assertEquals(25,result);
         	verify(mathService, times(1)).magic(4,2);
         	verifyNoMoreInteractions(mathService);
     }

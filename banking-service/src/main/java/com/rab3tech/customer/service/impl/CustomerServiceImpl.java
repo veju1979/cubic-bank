@@ -83,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private PayeeRepository payeeRepository;
 	
-	@TimeLogger
+	//@TimeLogger
 	private CustomerAccountInfoVO createBankAccount(int csaid,String email) {
 		// logic
 				String customerAccount = Utils.generateCustomerAccount();
