@@ -1,9 +1,8 @@
 package com.rab3tech.admin.service.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,28 @@ public class CustomerLocationServiceImpl implements CustomerLocationService{
 
 	@Autowired
 	private CustomerLocationRepository customerLocationRepository;
+	
+	@Override
+	public Optional<LocationVO> findById(int lid){
+		Optional<Location> optional=customerLocationRepository.findById(lid);
+		if(optional.isPresent()){
+			LocationVO locationVO=new LocationVO();
+			BeanUtils.copyProperties(optional.get(), locationVO);
+			locationVO.setName(optional.get().getLocation());
+			return Optional.of(locationVO);//Creating optional of LocationVO type
+		}else{
+			return Optional.empty();
+		}
+	}
+	
+	
+	@Override
+	public String save(LocationVO locationVO){
+		Location location=new Location();
+		BeanUtils.copyProperties(locationVO, location);
+		customerLocationRepository.save(location);
+		return "success";
+	}
 	
 	@Override
 	public List<LocationVO> findLocation(){
