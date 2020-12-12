@@ -55,8 +55,8 @@ public class CustomerLocationServiceImplTest {
 		when(customerLocationRepository.findAll()).thenReturn(location);
 		List<LocationVO> locationVOs = customerLocationServiceImpl.findLocation();
 		assertNotNull(locationVOs);
-		assertEquals(locationVOs.size(), 1);
-		assertEquals(locationVOs.get(0).getLcode(), "L010");
+		assertEquals(1, locationVOs.size());
+		assertEquals("L010",locationVOs.get(0).getLcode());
 
 		verify(customerLocationRepository, times(1)).findAll();
 		verifyNoMoreInteractions(customerLocationRepository);

@@ -26,8 +26,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.rab3tech.customer.service.impl.CustomerEnquiryService;
+import com.rab3tech.service.exception.BankServiceException;
 import com.rab3tech.test.TestUtil;
 import com.rab3tech.vo.CustomerSavingVO;
 public class CustomerAccountEnquiryControllerTest {
@@ -48,7 +52,11 @@ public class CustomerAccountEnquiryControllerTest {
               //  .addFilters(new CorsFilter())
                 .build();
     }
-	
+	@GetMapping("/customers/enquiry")
+	public List<CustomerSavingVO> getAllEnquiry() {
+		List<CustomerSavingVO>  responses=customerEnquiryService.findAll();
+		return responses;
+	}
 
 	@Test
 	public 	void testGetAllEnquiryWhenEnquiryNoEmpty() throws Exception {
@@ -84,6 +92,19 @@ public class CustomerAccountEnquiryControllerTest {
 	     verifyNoMoreInteractions(customerEnquiryService);
 	}
 	
+	/*@PostMapping("/customers/enquiry")
+	public CustomerSavingVO saveEnquiry(@RequestBody CustomerSavingVO customerSavingVO) {
+		//write code for email validation;
+		CustomerSavingVO  response=null;
+	    boolean status=customerEnquiryService.emailNotExist(customerSavingVO.getEmail());
+		if(status) {
+		     response=customerEnquiryService.save(customerSavingVO);
+		}else {
+		  throw new BankServiceException("Sorry , this email is already in use "+customerSavingVO.getEmail());
+		}
+		return response;
+	}*/
+	
 	@Test
 	public	void testSaveEnquiryWhenSuccess2() throws Exception {
 		  CustomerSavingVO customerSavingVO=new CustomerSavingVO(0,"nagendra","nagen@gmail.com","02390","NA","Saving","Appoved","C9393",null,"A435");
@@ -102,6 +123,23 @@ public class CustomerAccountEnquiryControllerTest {
 	 	verify(customerEnquiryService, times(1)).save(customerSavingVO);
  	    verify(customerEnquiryService, times(1)).emailNotExist("nagen@gmail.com");
         verifyNoMoreInteractions(customerEnquiryService);
+	}
+	
+	@Test
+	public	void testSaveEnquiryWhenException() throws Exception {
+		 //String exceptionParam = "Sorry , this email is already in use nagen@gmail.com";
+		  CustomerSavingVO customerSavingVO=new CustomerSavingVO(0,"nagendra","nagen@gmail.com","02390","NA","Saving","Appoved","C9393",null,"A435");
+		  when(customerEnquiryService.emailNotExist("nagen@gmail.com")).thenReturn(false);
+	 	  when(customerEnquiryService.save(customerSavingVO)).thenReturn(customerSavingVO);
+	 	 //exception.expect(BankServiceException.class);
+	 	  mockMvc.perform(MockMvcRequestBuilders.post("/v3/customers/enquiry")
+	 	        .contentType(MediaType.APPLICATION_JSON)
+	 	        .content(TestUtil.convertObjectToJsonBytes(customerSavingVO))
+	 			.accept(MediaType.APPLICATION_JSON))
+	 	.andExpect(status().is5xxServerError())
+	 	//.andExpect(result -> assertTrue(result.getResolvedException() instanceof NestedServletException))
+	  //.andExpect(result -> assertEquals(exceptionParam, result.getResolvedException().getMessage()))
+    .andReturn();
 	}
 	
 	@Test
@@ -136,22 +174,6 @@ public class CustomerAccountEnquiryControllerTest {
 		    .andReturn();
 	}*/
 	
-	@Test
-	public	void testSaveEnquiryWhenException() throws Exception {
-		
-		 String exceptionParam = "Sorry , this email is already in use nagen@gmail.com";
-		  CustomerSavingVO customerSavingVO=new CustomerSavingVO(0,"nagendra","nagen@gmail.com","02390","NA","Saving","Appoved","C9393",null,"A435");
-		  when(customerEnquiryService.emailNotExist("nagen@gmail.com")).thenReturn(false);
-	 	  when(customerEnquiryService.save(customerSavingVO)).thenReturn(customerSavingVO);
-	 	 //exception.expect(BankServiceException.class);
-	 	  mockMvc.perform(MockMvcRequestBuilders.post("/v3/customers/enquiry")
-	 	        .contentType(MediaType.APPLICATION_JSON)
-	 	        .content(TestUtil.convertObjectToJsonBytes(customerSavingVO))
-	 			.accept(MediaType.APPLICATION_JSON))
-	 	.andExpect(status().is5xxServerError())
-	 	//.andExpect(result -> assertTrue(result.getResolvedException() instanceof NestedServletException))
-	  //.andExpect(result -> assertEquals(exceptionParam, result.getResolvedException().getMessage()))
-    .andReturn();
-	}
+	
 	
 }
