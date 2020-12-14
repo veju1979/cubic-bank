@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.rab3tech.vo.SecurityQuestionsVO;
 
+/**
+ * 
+ * @author javahunk
+ *
+ */
 public interface CustomerSecurityQuestionsService {
 
 	List<SecurityQuestionsVO> findSecurityQuestions();

@@ -27,11 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.rab3tech.customer.service.impl.CustomerEnquiryService;
-import com.rab3tech.service.exception.BankServiceException;
 import com.rab3tech.test.TestUtil;
 import com.rab3tech.vo.CustomerSavingVO;
 public class CustomerAccountEnquiryControllerTest {
@@ -52,11 +49,7 @@ public class CustomerAccountEnquiryControllerTest {
               //  .addFilters(new CorsFilter())
                 .build();
     }
-	@GetMapping("/customers/enquiry")
-	public List<CustomerSavingVO> getAllEnquiry() {
-		List<CustomerSavingVO>  responses=customerEnquiryService.findAll();
-		return responses;
-	}
+	
 
 	@Test
 	public 	void testGetAllEnquiryWhenEnquiryNoEmpty() throws Exception {
@@ -66,16 +59,18 @@ public class CustomerAccountEnquiryControllerTest {
 		 customerSavingVOs.add(customerSavingVO1);
 		 customerSavingVOs.add(customerSavingVO2);
 		 when(customerEnquiryService.findAll()).thenReturn(customerSavingVOs);
-		 mockMvc.perform(get("/v3/customers/enquiry"))
+		 mockMvc.perform(get("/v3/customers/enquiry")
+		 .accept(MediaType.APPLICATION_JSON))
          .andExpect(status().isOk())
-         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
          .andExpect(jsonPath("$", hasSize(2)))
+         ////[{"csaid":122,"name":"nagendra","email":"nagen@gmail.com"},{{"csaid":123,"name":"ashish","email":"ashish@gmail.com"}}]
          .andExpect(jsonPath("$[0].csaid", is(122)))
          .andExpect(jsonPath("$[0].name", is("nagendra")))
          .andExpect(jsonPath("$[0].email", is("nagen@gmail.com")))
          .andExpect(jsonPath("$[1].csaid", is(123)))
          .andExpect(jsonPath("$[1].email", is("ashish@gmail.com")))
-         .andExpect(jsonPath("$[1].name", is("ashish")));		 
+         .andExpect(jsonPath("$[1].name", is("ashish")));	
+		 
 		 verify(customerEnquiryService, times(1)).findAll();
 	     verifyNoMoreInteractions(customerEnquiryService);
 	}
@@ -84,9 +79,9 @@ public class CustomerAccountEnquiryControllerTest {
 	public 	void testGetAllEnquiryWhenEnquiryIsEmpty() throws Exception {
 		 List<CustomerSavingVO> customerSavingVOs=new ArrayList<>();
 		 when(customerEnquiryService.findAll()).thenReturn(customerSavingVOs);
-		 mockMvc.perform(get("/v3/customers/enquiry"))
+		 mockMvc.perform(get("/v3/customers/enquiry")
+		 .accept(MediaType.APPLICATION_JSON))		 
          .andExpect(status().isOk())
-         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
          .andExpect(jsonPath("$", hasSize(0)));
 		 verify(customerEnquiryService, times(1)).findAll();
 	     verifyNoMoreInteractions(customerEnquiryService);
