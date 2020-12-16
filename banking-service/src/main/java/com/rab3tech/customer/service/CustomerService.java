@@ -45,6 +45,8 @@ public interface CustomerService {
 
 	CustomerAccountInfoVO findCustomerAccountInfo(String customerId);
 
+	void updateCustomerLockStatus(String userid, String status);
+
 	
 
 }

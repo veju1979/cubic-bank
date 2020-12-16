@@ -8,6 +8,7 @@ public class CustomerMapper {
 	public static CustomerVO toVO(Customer customer) {
 		CustomerVO customerVO=new CustomerVO();
 		customerVO.setUserid(customer.getLogin().getLoginid());
+		customerVO.setLocked(customer.getLogin().getLocked());
 		customerVO.setAddress(customer.getAddress());
 		customerVO.setEmail(customer.getEmail());
 		customerVO.setGender(customer.getGender());

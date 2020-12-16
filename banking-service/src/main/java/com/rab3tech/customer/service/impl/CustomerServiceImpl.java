@@ -160,10 +160,18 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return customerVO;
 	}
+	
+	@Override
+	@Transactional
+	public void updateCustomerLockStatus(String userid,String status) {
+		Customer customer=customerRepository.findByEmail(userid).get();
+		customer.getLogin().setLocked(status);
+	}
 
 	@Override
 	public List<CustomerVO> findCustomers() {
 		List<Customer> customers = customerRepository.findAll();
+		
 		/*
 		 * List<CustomerVO> customerVOs=new ArrayList<CustomerVO>(); 
 		 * for(Customer customer:customers) {

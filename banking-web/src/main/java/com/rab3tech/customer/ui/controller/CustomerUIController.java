@@ -79,7 +79,7 @@ public class CustomerUIController {
 	
 	@Autowired
    private LocationService locationService;
-	
+		
 
 	@GetMapping("/customer/forget/password")
 	public String forgetPassword() {

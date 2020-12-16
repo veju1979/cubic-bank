@@ -55,9 +55,9 @@ public class EmailServiceImpl implements EmailService{
 	        helper.setSubject(mail.getSubject());
 	        helper.setFrom(mail.getFrom());
 	        
-	        File cfile=new ClassPathResource("images/registration-banner.png", EmailServiceImpl.class.getClassLoader()).getFile();
-	        byte[] cbytes=Files.readAllBytes(cfile.toPath());
-	        InputStreamSource cimageSource =new ByteArrayResource(cbytes);
+		        File cfile=new ClassPathResource("images/registration-banner.png", EmailServiceImpl.class.getClassLoader()).getFile();
+		        byte[] cbytes=Files.readAllBytes(cfile.toPath());
+		        InputStreamSource cimageSource =new ByteArrayResource(cbytes);
 	        helper.addInline("cb", cimageSource, "image/png");
 	        
 	        

@@ -21,6 +21,7 @@ import com.rab3tech.email.service.EmailService;
 import com.rab3tech.utils.BankHttpUtils;
 import com.rab3tech.vo.CustomerAccountInfoVO;
 import com.rab3tech.vo.CustomerSavingVO;
+import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.EmailVO;
 
 @Controller
@@ -40,6 +41,25 @@ public class EmployeeUIController {
 	@Autowired
 	private EmailService emailService;
 	
+	
+	@GetMapping("/customer/lock")
+	public String customerLock(@RequestParam String userid) {
+	   customerService.updateCustomerLockStatus(userid, "yes");
+	   return "redirect:/employee/customers";
+	}
+	
+	@GetMapping("/customer/unlock")
+	public String customerUnlock(@RequestParam String userid) {
+	   customerService.updateCustomerLockStatus(userid, "no");
+	   return "redirect:/employee/customers";
+	}
+	
+	@GetMapping("/employee/customers")
+	public String showCustomer(Model model) {
+	   List<CustomerVO> customerVOs=customerService.findCustomers();
+	   model.addAttribute("customerVOs", customerVOs);
+	   return "employee/customers";
+	}
 	
 	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@GetMapping("/customers/account/approve")
