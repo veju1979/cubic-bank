@@ -166,6 +166,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public void updateCustomerLockStatus(String userid,String status) {
 		Customer customer=customerRepository.findByEmail(userid).get();
 		customer.getLogin().setLocked(status);
+		//Here write code for email service
 	}
 
 	@Override

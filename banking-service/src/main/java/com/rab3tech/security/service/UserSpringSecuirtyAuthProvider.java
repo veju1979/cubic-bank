@@ -45,13 +45,13 @@ public class UserSpringSecuirtyAuthProvider implements UserDetailsService {
 				LoginVO userSessionVO=ouserSessionVO.get();
 				if(userSessionVO!=null && userSessionVO.getUsername()!=null) {
 					//this is code which  is connecting our code to the spring security code	
-						if(userSessionVO.getLocked()!=null && userSessionVO.getLocked().equalsIgnoreCase("yes")){
+						/*if(userSessionVO.getLocked()!=null && userSessionVO.getLocked().equalsIgnoreCase("yes")){
 							 user =  new User(username, userSessionVO.getPassword(),	true,true,true,false,
 										getAuthorities(userSessionVO.getRoles()));
-						}else{
+						}else{*/
 							user =  new User(userSessionVO.getUsername(), userSessionVO.getPassword(),	true,true,true,true,
 									getAuthorities(userSessionVO.getRoles()));
-						}
+						//}
 					}else{
 						UsernameNotFoundException ex=new UsernameNotFoundException("Sorry user is not in database");
 						throw ex;

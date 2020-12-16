@@ -54,6 +54,12 @@ public class LoginController {
 			return "customer/accessDenied";	//accessDenied.html
 	}	
 	
+	@GetMapping(value= {"/customer/locked"})
+	public String customerLocked(Model model) {
+			return "/customer/locked";	//locked.html
+	}
+	
+	
 	@GetMapping(value= {"/customer/dashboard"})
 	public String customerDashboard(Model model,HttpSession session) {
 		  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,6 +81,9 @@ public class LoginController {
 		Optional<LoginVO> optional=loginService.findUserByUsername(username);
 		if(optional.isPresent()) {
 					LoginVO  loginVO2=optional.get();
+					if("yes".equalsIgnoreCase(loginVO2.getLocked())){
+						return "redirect:/customer/locked";
+					}
 					loginVO2.setPassword("");
 					
 					session.setAttribute("userSessionVO", loginVO2);

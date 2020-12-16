@@ -79,6 +79,7 @@ public class LoginServiceImpl implements LoginService {
 			loginVO.setEmail(login.getEmail());
 			loginVO.setUsername(login.getLoginid());
 			loginVO.setPassword(login.getPassword());
+			loginVO.setLocked(login.getLocked());
 			loginVO.setLlt(login.getLlt());
 			Set<Role> rolesSet=login.getRoles();
 			List<String> roleList=new ArrayList<>();

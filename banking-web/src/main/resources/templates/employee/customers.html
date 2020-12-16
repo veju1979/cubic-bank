@@ -207,7 +207,6 @@
     </td>
      <td>
       <div th:switch="${customerVO.locked}">
-          
         <p th:case="'yes'">
         <a th:href="@{'/customer/unlock?userid='+${customerVO.userid}}">
         <img th:src="@{/images/lock.png}"/>
