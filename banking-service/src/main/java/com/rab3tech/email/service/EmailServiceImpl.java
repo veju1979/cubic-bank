@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import com.rab3tech.customer.dao.repository.CustomerRepository;
+import com.rab3tech.dao.entity.Customer;
 import com.rab3tech.vo.EmailVO;
 
 @Service
@@ -30,6 +32,9 @@ public class EmailServiceImpl implements EmailService{
 	
 	@Autowired
     private SpringTemplateEngine templateEngine;
+	
+	@Autowired
+	private CustomerRepository customerRepository;
 	
 	
 	@Override
@@ -60,6 +65,47 @@ public class EmailServiceImpl implements EmailService{
 		        InputStreamSource cimageSource =new ByteArrayResource(cbytes);
 	        helper.addInline("cb", cimageSource, "image/png");
 	        
+	        
+	        File file=new ClassPathResource("images/bank-icon.png", EmailServiceImpl.class.getClassLoader()).getFile();
+	        byte[] bytes=Files.readAllBytes(file.toPath());
+	        InputStreamSource imageSource =new ByteArrayResource(bytes);
+	        helper.addInline("bankIcon", imageSource, "image/png");
+	        
+	        javaMailSender.send(message);
+		 }catch (Exception e) {
+			e.printStackTrace();
+		 }   
+	        return "done";
+	}
+	
+	
+
+	@Override
+	@Async("threadPool")
+	public String sendLockAndUnlockEmail(EmailVO mail)  {
+		
+		 try {
+		    MimeMessage message = javaMailSender.createMimeMessage();
+	        MimeMessageHelper helper = new MimeMessageHelper(message,
+	                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+	                StandardCharsets.UTF_8.name());
+	        Context context = new Context();
+	        Map<String,Object> props=new HashMap<>();
+	        props.put("name", mail.getName());
+	        props.put("message", mail.getBody());
+	        props.put("sign", "Banking Application");
+	        props.put("location", "Fremont CA100 , USA");
+	        props.put("email", "javahunk2020@gmail.com");
+	        context.setVariables(props);
+	        
+	        String html = templateEngine.process("account-lock-unlock", context);
+	        helper.setTo(mail.getTo());
+	        helper.setText(html, true);
+	        helper.setSubject("Regarding your account status.");
+	        helper.setFrom(mail.getFrom());
+	       Customer customer= customerRepository.findByEmail(mail.getTo()).get();
+	        InputStreamSource cimageSource =new ByteArrayResource(customer.getImage());
+	        helper.addInline("photo", cimageSource, "image/png");
 	        
 	        File file=new ClassPathResource("images/bank-icon.png", EmailServiceImpl.class.getClassLoader()).getFile();
 	        byte[] bytes=Files.readAllBytes(file.toPath());

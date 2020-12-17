@@ -37,6 +37,7 @@ import com.rab3tech.dao.entity.Login;
 import com.rab3tech.dao.entity.PayeeInfo;
 import com.rab3tech.dao.entity.PayeeStatus;
 import com.rab3tech.dao.entity.Role;
+import com.rab3tech.email.service.EmailService;
 import com.rab3tech.mapper.CustomerMapper;
 import com.rab3tech.utils.AccountStatusEnum;
 import com.rab3tech.utils.PasswordGenerator;
@@ -45,6 +46,7 @@ import com.rab3tech.vo.AccountTypeVO;
 import com.rab3tech.vo.CustomerAccountInfoVO;
 import com.rab3tech.vo.CustomerUpdateVO;
 import com.rab3tech.vo.CustomerVO;
+import com.rab3tech.vo.EmailVO;
 import com.rab3tech.vo.PayeeApproveVO;
 import com.rab3tech.vo.PayeeInfoVO;
 import com.rab3tech.vo.RoleVO;
@@ -82,6 +84,9 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	private PayeeRepository payeeRepository;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	//@TimeLogger
 	private CustomerAccountInfoVO createBankAccount(int csaid,String email) {
@@ -166,6 +171,12 @@ public class CustomerServiceImpl implements CustomerService {
 	public void updateCustomerLockStatus(String userid,String status) {
 		Customer customer=customerRepository.findByEmail(userid).get();
 		customer.getLogin().setLocked(status);
+		EmailVO  em=new EmailVO();
+		em.setBody("Your account is locked!!!");
+		em.setFrom("javahunk100@gmail.com");
+		em.setTo(userid);
+		em.setName(customer.getName());
+		emailService.sendLockAndUnlockEmail(em);
 		//Here write code for email service
 	}
 
