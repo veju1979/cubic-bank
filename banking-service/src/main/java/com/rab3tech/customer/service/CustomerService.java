@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.rab3tech.vo.AccountTypeVO;
 import com.rab3tech.vo.CustomerAccountInfoVO;
+import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerUpdateVO;
 import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.PayeeApproveVO;
@@ -46,6 +47,8 @@ public interface CustomerService {
 	CustomerAccountInfoVO findCustomerAccountInfo(String customerId);
 
 	void updateCustomerLockStatus(String userid, String status);
+
+	void deletePayee(int payeeId);
 
 	
 

@@ -44,6 +44,7 @@ import com.rab3tech.utils.PasswordGenerator;
 import com.rab3tech.utils.Utils;
 import com.rab3tech.vo.AccountTypeVO;
 import com.rab3tech.vo.CustomerAccountInfoVO;
+import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerUpdateVO;
 import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.EmailVO;
@@ -384,5 +385,11 @@ public class CustomerServiceImpl implements CustomerService {
          }
 		   
 	 }
+
+	@Override
+	public void deletePayee(int payeeId) {
+		//This is deleting entity by id
+		payeeRepository.deleteById(payeeId);
+	}
 
 }
