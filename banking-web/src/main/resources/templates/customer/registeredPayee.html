@@ -44,10 +44,51 @@
 	   });
   }
   
+  function openPayeeModal(payeeAccountNo,payeeName,payeeNickName,payeeId){
+	  
+	   
+         $("#paccountNo").html(payeeAccountNo);
+         $("#ppayeeName").html(payeeName);
+         $("#photophoto").html(payeeAccountNo);
+         $("#payeeNickName").val(payeeNickName);
+         $("#ppayeeId").val(payeeId);
+         ///Fetch photo as per account
+         $("#photophoto").attr("src","/customers/acphoto?accNumber="+payeeAccountNo);
+	  
+	  //This is jQuery code to open a modal as per it;s id
+	  $("#editPayeePopup").modal("show");
+  }
+  
   
   $(document).ready(function() {
-       // $('#enquiryList').DataTable();
-    } );
+	  
+	  $("#payeeUpdateButton").click(function(){
+		  var tpayeeid=$("#ppayeeId").val();
+		  var tpayeeNickName=$("#payeeNickName").val();
+		  var jobj={payeeid:tpayeeid,payeeNickName:tpayeeNickName};
+		  //converting JavaScript object into JSON data 
+		  var jsonData=JSON.stringify(jobj);
+		  
+		  const options = {
+	              method: 'PUT',
+	              body: jsonData,
+	              headers: {
+	                'Accept': 'application/json',
+	                'Content-Type': 'application/json'
+	              }
+	            };
+		   var promise=fetch("/v3/customer/payee",options);
+		   promise.then(response=>response.json())
+		   .then(function(data){
+	           if(data.status=="success") {
+	        	   $("#pop_"+tpayeeid).html(tpayeeNickName);
+	        	   $("#editPayeePopup").modal("hide"); 	   
+	           }		   
+		   });
+		  
+	  });
+       
+    });
   </script>
   
   <style>
@@ -111,14 +152,16 @@ function clearMsg(){
   <tr th:each="payeeVO,iter: ${payeeInfoList}" th:id="${'delrow_'+payeeVO.id}">
     <td><input type="checkbox" id="payeeSelected" name="payeeSelected"></td>
     <td th:text="${payeeVO.payeeName}"/>
-    <td th:text="${payeeVO.payeeNickName}"/>
+    <td th:text="${payeeVO.payeeNickName}" th:id="${'pop_'+payeeVO.id}"/>
     <td th:text="${payeeVO.payeeAccountNo}"/>
     <td th:text="${#dates.format(payeeVO.dom, 'dd-MMM-yyyy HH:mm')}"></td>
     <td th:text="${payeeVO.remarks}"/>
     <td th:text="${payeeVO.payeeStatus}"/>
     <td>
     <button type="button" id="deleteButton"  class="btn btn-danger" th:onclick="|deletePayee(${payeeVO.id})|">Delete</button>
-    <button type="button" id="editButton"  class="btn btn-warning">Edit</button>
+    <button type="button" id="editButton" th:onclick="|openPayeeModal('${payeeVO.payeeAccountNo}','${payeeVO.payeeName}','${payeeVO.payeeNickName}',${payeeVO.id})|"  class="btn btn-warning">Edit</button>
+    
+    
     </td>
   </tr>
   </tbody>
@@ -132,7 +175,38 @@ function clearMsg(){
 <footer  class="ffooter">
 </footer>
 
-
+<!-- The APPROVE PAYEE Modal -->
+  <div class="modal" id="editPayeePopup">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <input type="hidden" name="ppayeeId" id="ppayeeId"/>
+        <div class="modal-header">
+          <h4 class="modal-title">
+          Update Payee</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+          
+        <!-- Modal body -->
+        <div class="modal-body">
+            A/C Number  - <span id="paccountNo"></span>
+            <hr/>
+            Payee Name  - <span id="ppayeeName"></span>
+            <hr/>
+             Photo  -   <img src="" id="photophoto" style="height: 60px;"/>
+            <hr/>
+             Payee Nick Name
+            <input type="text" name="payeeNickName" id="payeeNickName" class="form-control">
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="payeeUpdateButton">Update Payee</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
  
 
 </body>

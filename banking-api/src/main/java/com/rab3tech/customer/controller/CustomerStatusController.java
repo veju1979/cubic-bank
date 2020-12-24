@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,10 @@ import com.rab3tech.customer.service.impl.CustomerEnquiryService;
 import com.rab3tech.vo.ApplicationResponseVO;
 import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.PayeeApproveVO;
+import com.rab3tech.vo.UpdatePayeeVO;
+
+
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -27,6 +32,16 @@ public class CustomerStatusController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	//{"payeeNickName":"Nk","payeeid":22}
+	@PutMapping("/customer/payee")
+	public ApplicationResponseVO updateCustomerPayeee(@RequestBody UpdatePayeeVO updatePayeeVO ){
+		ApplicationResponseVO applicationResponseVO=new ApplicationResponseVO();
+		customerService.updatePayee(updatePayeeVO);
+		applicationResponseVO.setMessage("Yeap , Payee is update successfully.");
+		applicationResponseVO.setStatus("success");
+		return applicationResponseVO;
+	}
 	
 	@DeleteMapping("/customer/payee/{payeeId}")
 	public ApplicationResponseVO deleteCustomerPayeee(@PathVariable int payeeId){

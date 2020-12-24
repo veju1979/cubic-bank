@@ -10,6 +10,7 @@ import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.PayeeApproveVO;
 import com.rab3tech.vo.PayeeInfoVO;
 import com.rab3tech.vo.RoleVO;
+import com.rab3tech.vo.UpdatePayeeVO;
 
 public interface CustomerService {
 
@@ -49,6 +50,8 @@ public interface CustomerService {
 	void updateCustomerLockStatus(String userid, String status);
 
 	void deletePayee(int payeeId);
+
+	void updatePayee(UpdatePayeeVO updatePayeeVO);
 
 	
 

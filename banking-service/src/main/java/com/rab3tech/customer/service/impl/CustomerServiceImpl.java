@@ -51,6 +51,7 @@ import com.rab3tech.vo.EmailVO;
 import com.rab3tech.vo.PayeeApproveVO;
 import com.rab3tech.vo.PayeeInfoVO;
 import com.rab3tech.vo.RoleVO;
+import com.rab3tech.vo.UpdatePayeeVO;
 
 @Service
 @Transactional
@@ -385,6 +386,18 @@ public class CustomerServiceImpl implements CustomerService {
          }
 		   
 	 }
+	 
+	 @Override
+	public void updatePayee(UpdatePayeeVO updatePayeeVO) {
+			//This is deleting entity by id
+		Optional<PayeeInfo> optional=payeeRepository.findById(updatePayeeVO.getPayeeid());
+		if(optional.isPresent()){
+			optional.get().setPayeeNickName(updatePayeeVO.getPayeeNickName());
+		}
+		/* payeeRepository.findById(updatePayeeVO.getPayeeid()).
+		 ifPresent(tt->tt.setPayeeName(updatePayeeVO.getPayeeNickName()));
+		*/ 
+	}
 
 	@Override
 	public void deletePayee(int payeeId) {
