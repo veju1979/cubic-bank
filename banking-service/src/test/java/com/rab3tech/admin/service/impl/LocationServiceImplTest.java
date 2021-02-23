@@ -20,17 +20,19 @@ import org.mockito.Mock;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.BeanUtils;
 
 import com.rab3tech.customer.dao.repository.CustomerLocationRepository;
 import com.rab3tech.dao.entity.Location;
 import com.rab3tech.vo.LocationVO;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LocationServiceImpl {
+public class LocationServiceImplTest {
 	
 	@Mock
 	private CustomerLocationRepository customerLocationRepository;
 	
+	//creating instance of CustomerLocationServiceImpl
 	@InjectMocks
 	private CustomerLocationServiceImpl customerLocationService;
 	
@@ -61,8 +63,10 @@ public class LocationServiceImpl {
 		location.setId(100);
 		location.setLcode("L019");
 		location.setLocation("Fremont");
+		
 		//Stubing or mocking the behavior for repository
 		when(customerLocationRepository.findById(100)).thenReturn(Optional.of(location));
+	
 		Optional<LocationVO> optional=customerLocationService.findById(100);
 		LocationVO locationVO=optional.get();
 		assertEquals("L019", locationVO.getLcode());

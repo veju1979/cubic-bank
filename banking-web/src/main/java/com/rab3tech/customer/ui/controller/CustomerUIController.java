@@ -34,14 +34,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rab3tech.customer.service.CustomerService;
+import com.rab3tech.customer.service.CustomerTransactionService;
 import com.rab3tech.customer.service.LocationService;
 import com.rab3tech.customer.service.LoginService;
 import com.rab3tech.customer.service.impl.CustomerEnquiryService;
 import com.rab3tech.customer.service.impl.SecurityQuestionService;
 import com.rab3tech.email.service.EmailService;
 import com.rab3tech.vo.ChangePasswordVO;
+import com.rab3tech.vo.CustomerAccountInfoVO;
 import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerSecurityQueAnsVO;
+import com.rab3tech.vo.CustomerTransactionVO;
 import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.EmailVO;
 import com.rab3tech.vo.FundTransferVO;
@@ -79,14 +82,67 @@ public class CustomerUIController {
 	
 	@Autowired
    private LocationService locationService;
+	
+	
+	@Autowired
+   private CustomerTransactionService customerTransactionService;
+	
+	
+	
+	
+	@GetMapping("/customer/sendAccountStmt")
+	public String customerSendAccountStmt(Model model,HttpSession session) {
+		//Here we have to write logic to fetch data
+		//This is coming from session
+				
+				//This is coming from session
+			LoginVO  loginVO2=(LoginVO)session.getAttribute("userSessionVO");
+			String currentLoggedInUserName=loginVO2.getUsername();
+			
+            //This I need for email
+			EmailVO mail = new EmailVO(currentLoggedInUserName, "javahunk2020@gmail.com",
+					"Not setting", "", currentLoggedInUserName);
+			mail.setUsername(currentLoggedInUserName);
+			//mail.setName(loginVO2.getName());
+			emailService.sendAccountStatement(mail);
+			
+			//This I need for showing all the transaction details of customer again from,
+			//database!
+			List<CustomerTransactionVO>  customerTransactionVOs=customerTransactionService.findCustomerTransaction(currentLoggedInUserName);
+			model.addAttribute("customerTransactionVOs", customerTransactionVOs);
+			//customer/accountSummary - view name
+			return "customer/customerTransaction"; // thyme leaf
 		
-
-	@GetMapping("/customer/forget/password")
-	public String forgetPassword() {
-		//spring.thymeleaf.prefix=classpath:/src/main/resources/templates/
-		return "customer/forgetPassword";	//forgetPassword.html	
 	}
 	
+	//action = /customer/accountSummary
+	@GetMapping("/customer/accountSummary")
+	public String customerAccountSummary(Model model,HttpSession session) {
+		//Here we have to write logic to fetch data
+		//This is coming from session
+		LoginVO  loginVO2=(LoginVO)session.getAttribute("userSessionVO");
+		String currentLoggedInUserName=loginVO2.getUsername();
+		CustomerAccountInfoVO customerAccountInfoVO=customerService.findCustomerAccountInfo(currentLoggedInUserName);
+		model.addAttribute("customerAccount", customerAccountInfoVO);
+		//customer/accountSummary - view name
+		return "customer/accountSummary"; // thyme leaf
+		
+	}
+	
+	@GetMapping("/customer/customerTransaction")
+	public String showCustomerTransaction(Model model,HttpSession session) {
+		//Here we have to write logic to fetch data
+		//This is coming from session
+		LoginVO  loginVO2=(LoginVO)session.getAttribute("userSessionVO");
+		String currentLoggedInUserName=loginVO2.getUsername();
+		List<CustomerTransactionVO>  customerTransactionVOs=customerTransactionService.findCustomerTransaction(currentLoggedInUserName);
+		model.addAttribute("customerTransactionVOs", customerTransactionVOs);
+		//customer/accountSummary - view name
+		return "customer/customerTransaction"; // thyme leaf
+		
+	}
+	
+
 	
 	@PostMapping("/customer/changePassword")
 	public String saveCustomerQuestions(@ModelAttribute ChangePasswordVO changePasswordVO, Model model,HttpSession session) {
