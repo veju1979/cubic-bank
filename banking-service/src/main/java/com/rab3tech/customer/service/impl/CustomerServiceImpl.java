@@ -258,6 +258,19 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	
+	/**
+	 * code to upload the image
+	 */
+	@Override
+	public void updatePhoto(int cid,byte[] photo) {
+		Optional<Customer> optionalCustomer=customerRepository.findById(cid);
+		if(optionalCustomer.isPresent()) {
+			Customer customer=optionalCustomer.get();
+			customer.setImage(photo);
+		}
+	}
+	
+	
 	@Override
 	public byte[] findPhotoByid(int cid) {
 		Optional<Customer> optionalCustomer=customerRepository.findById(cid);

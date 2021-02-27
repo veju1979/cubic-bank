@@ -61,10 +61,13 @@
 
  <a th:href="@{/customer/logout}"><button type="button" class="btn btn-warning">Logout</button></a>
  <br/>
-  <img th:src="@{/images/customer-en.png}" alt="page" style="height: 200px;"/>
+  <img th:src="@{/images/customer-en.png}" alt="page" style="height: 100px;"/>
    <span th:utext="${error}" style="color: red;font-size: 18px;"></span>
   <div style="width: 70%">
-      <p>The .table-bordered class adds borders on all sides of the table and the cells:</p>            
+      <p>Customer Details:</p>  
+      
+  <form th:action="@{/customer/profile/photo}" method="POST"  enctype="multipart/form-data">
+    <input type="hidden" name="cid" th:value="${customerVO.id}">           
   <table class="table table-bordered">
     <tbody>
       <tr>
@@ -86,11 +89,14 @@
        <tr>
         <td>Photo : </td>
          <td>
-         <img th:src="@{'/customers/photo?cid=' + ${customerVO.id}}" style="height: 120px;"/>
+         <img th:src="@{'/customer/profile/photo?cid=' + ${customerVO.id}}" style="height: 120px;"/>
+          <input type="file" name="pppppphoto"/>
          </td>
       </tr>
     </tbody>
   </table>
+  <button type="submit" class="btn btn-primary">Upload</button>
+  </form>
   <hr/>
   </div>
 </div>
