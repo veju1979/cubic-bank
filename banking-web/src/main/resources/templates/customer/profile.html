@@ -22,7 +22,21 @@
   height: 30px;
   background-color:#e9ffe7;
 }
+
+
+.zoom {
+  padding: 10px;
+  transition: transform .2s; /* Animation */
+  height: 250px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
 </style>
+
+
 </head>
 <body>
 <header style="height: 30px;background-color: maroon;color:white;">
@@ -89,8 +103,8 @@
        <tr>
         <td>Photo : </td>
          <td>
-         <img th:src="@{'/customer/profile/photo?cid=' + ${customerVO.id}}" style="height: 120px;"/>
-          <input type="file" name="pppppphoto"/>
+         <img class="zoom" th:src="@{'/customer/profile/photo?cid=' + ${customerVO.id}}" style="height: 120px;"/>
+          <input type="file" name="pppppphoto" style="background-color: pink;"/>
          </td>
       </tr>
     </tbody>
