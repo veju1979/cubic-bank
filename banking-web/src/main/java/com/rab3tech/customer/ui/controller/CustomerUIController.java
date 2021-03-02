@@ -365,8 +365,9 @@ public class CustomerUIController {
 	}
 	
 	@GetMapping("/customer/registeredPayee")
-	public String registeredPayeeList(Model model) {
-		List<PayeeInfoVO> payeeInfoList = customerService.registeredPayeeList("technohunk100@gmail.com");
+	public String registeredPayeeList(Model model,HttpSession session) {
+		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
+		List<PayeeInfoVO> payeeInfoList = customerService.registeredPayeeList(loginVO.getUsername());
 		model.addAttribute("payeeInfoList", payeeInfoList);
 		return "customer/registeredPayee";
 		
@@ -382,6 +383,8 @@ public class CustomerUIController {
 	
 	@PostMapping("/customer/fundTransfer")
 	public String fundTransferPost(@ModelAttribute("fundTransferVO") FundTransferVO fundTransferVO, Model model) {
+		
+		
 		return "customer/fundTransferReview";
 	}
 
