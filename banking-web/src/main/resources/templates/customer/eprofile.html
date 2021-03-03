@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Customer Profile</title>
+  <title>Edit Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -80,17 +80,19 @@
   <div style="width: 70%">
       <p>Customer Details:</p>  
       
-  <form th:action="@{/customer/profile/photo}" method="POST"  enctype="multipart/form-data">
+  <form th:action="@{/customer/profile/update}" method="POST">
     <input type="hidden" name="cid" th:value="${customerVO.id}">           
   <table class="table table-bordered">
     <tbody>
       <tr>
         <td>Name</td>
-       <td th:text="${customerVO.name}"/>
+       <td>
+       	  <input type="text" name="name" th:value="${customerVO.name}" class="form-control">  
+       </td>
       </tr>
       <tr>
         <td>Email</td>
-       <td th:text="${customerVO.email}"/>
+       <td th:text="${customerVO.email}" style="font-weight: bold;"/>
       </tr>
       <tr>
         <td>User Name : </td>
@@ -98,21 +100,19 @@
       </tr>
        <tr>
         <td>Job Title : </td>
-         <td th:text="${customerVO.jobTitle}"/>
+         <td>
+          <input type="text" name="jobTitle" th:value="${customerVO.jobTitle}" class="form-control">  
+         </td>
       </tr>
        <tr>
         <td>Photo : </td>
          <td>
          <img class="zoom" th:src="@{'/customer/profile/photo?cid=' + ${customerVO.id}}" style="height: 120px;"/>
-          <input type="file" name="pppppphoto" style="background-color: pink;"/>
          </td>
       </tr>
     </tbody>
   </table>
-  <button type="submit" class="btn btn-primary">Upload</button>
-  <a th:href="@{/customer/profile/edit}">
- 	 <button type="button" class="btn btn-danger">Edit</button>
-  </a>
+  <button type="submit" class="btn btn-danger">Update</button>
   </form>
   <hr/>
   </div>

@@ -90,6 +90,13 @@ public class CustomerUIController {
 	
 	
 	
+	
+	@PostMapping("/customer/profile/update")
+	public String updateCustomer(int cid,String name,String jobTitle) throws IOException {
+		customerService.updateCustomerProfile(cid, name,jobTitle);
+		return "redirect:/customer/profile";// I will refresh your page
+	}
+	
 	@PostMapping("/customer/profile/photo")
 	public String changeCustomerPhoto(@RequestParam int cid,@RequestParam("pppppphoto") MultipartFile photo) throws IOException {
 		byte[] bphoto=photo.getBytes();
@@ -97,12 +104,14 @@ public class CustomerUIController {
 		return "redirect:/customer/profile";// I will refresh your page
 	}
 	
+	//Special code to render images by URL
 	@GetMapping("/customer/profile/photo")
 	public void findCustomerPhoto(@RequestParam int cid,HttpServletResponse response) throws IOException {
 	   byte[] photo=customerService.findPhotoByid(cid);
 	   response.setContentType("image/png");
 	   ServletOutputStream outputStream=response.getOutputStream();
 	   if(photo!=null) {
+		   //writing photo inside response body 
 		   outputStream.write(photo);
 	   }else {
 		   outputStream.write(new byte[] {});
@@ -119,6 +128,16 @@ public class CustomerUIController {
 		CustomerVO customerVO=customerService.findCustomerByUsername(currentLoggedInUserName);
 		model.addAttribute("customerVO", customerVO);
 		return "/customer/profile";//profile.html
+	}
+	
+	
+	@GetMapping("/customer/profile/edit")
+	public String showEditProfile(Model model,HttpSession session){
+		LoginVO  loginVO2=(LoginVO)session.getAttribute("userSessionVO");
+		String currentLoggedInUserName=loginVO2.getUsername();
+		CustomerVO customerVO=customerService.findCustomerByUsername(currentLoggedInUserName);
+		model.addAttribute("customerVO", customerVO);
+		return "/customer/eprofile";//eprofile.html
 	}
 	
 	
