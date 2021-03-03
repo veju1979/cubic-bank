@@ -35,6 +35,7 @@ import com.rab3tech.dao.entity.Customer;
 import com.rab3tech.dao.entity.CustomerAccountInfo;
 import com.rab3tech.dao.entity.CustomerSaving;
 import com.rab3tech.dao.entity.CustomerSavingApproved;
+import com.rab3tech.dao.entity.CustomerTransaction;
 import com.rab3tech.dao.entity.Login;
 import com.rab3tech.dao.entity.PayeeInfo;
 import com.rab3tech.dao.entity.PayeeStatus;
@@ -43,6 +44,7 @@ import com.rab3tech.email.service.EmailService;
 import com.rab3tech.mapper.CustomerMapper;
 import com.rab3tech.utils.AccountStatusEnum;
 import com.rab3tech.utils.PasswordGenerator;
+import com.rab3tech.utils.TransactionIdGeneratorUtils;
 import com.rab3tech.utils.Utils;
 import com.rab3tech.vo.AccountTypeVO;
 import com.rab3tech.vo.CustomerAccountInfoVO;
@@ -50,6 +52,7 @@ import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerUpdateVO;
 import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.EmailVO;
+import com.rab3tech.vo.FundTransferVO;
 import com.rab3tech.vo.PayeeApproveVO;
 import com.rab3tech.vo.PayeeInfoVO;
 import com.rab3tech.vo.RoleVO;
@@ -97,6 +100,29 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Override
+	public FundTransferVO executeTransaction(FundTransferVO fundTransferVO){
+		CustomerTransaction customerTransaction=new CustomerTransaction();
+		customerTransaction.setAmount(fundTransferVO.getAmount());
+		customerTransaction.setBankName("ICICI Bank");
+		customerTransaction.setDetails(fundTransferVO.getRemarks());
+		customerTransaction.setDot(new Timestamp(new Date().getTime()));
+		String fromAccount=fundTransferVO.getFromAccount().split("-")[0];
+		String toAccount=fundTransferVO.getToAccount().split("-")[0];
+		customerTransaction.setFromAccount(fromAccount);
+		customerTransaction.setToAccout(toAccount);
+		customerTransaction.setTransactionSchedule("no");
+		customerTransaction.setTxStatus("PROCESSED");
+		customerTransaction.setTxType("IMMEDIATE");
+		customerTransaction.setTransactionId("TX"+TransactionIdGeneratorUtils.randomDecimalString(16));
+		customerTransactionRepository.save(customerTransaction);
+		fundTransferVO.setFromAccount(fromAccount);
+		fundTransferVO.setToAccount(toAccount);
+		fundTransferVO.setTransactionId(customerTransaction.getTransactionId());
+		fundTransferVO.setDot(customerTransaction.getDot());
+		return fundTransferVO;
+	}
 	
 	//@TimeLogger
 	private CustomerAccountInfoVO createBankAccount(int csaid,String email) {

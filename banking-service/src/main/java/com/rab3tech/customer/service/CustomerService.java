@@ -7,6 +7,7 @@ import com.rab3tech.vo.CustomerAccountInfoVO;
 import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerUpdateVO;
 import com.rab3tech.vo.CustomerVO;
+import com.rab3tech.vo.FundTransferVO;
 import com.rab3tech.vo.PayeeApproveVO;
 import com.rab3tech.vo.PayeeInfoVO;
 import com.rab3tech.vo.RoleVO;
@@ -60,6 +61,8 @@ public interface CustomerService {
 	void updatePhoto(int cid, byte[] photo);
 
 	void updateCustomerProfile(int cid, String name, String jobTitle);
+
+	FundTransferVO executeTransaction(FundTransferVO fundTransferVO);
 
 	
 

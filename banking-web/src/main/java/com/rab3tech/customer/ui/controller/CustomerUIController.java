@@ -414,6 +414,9 @@ public class CustomerUIController {
 		//deduct money from sender and credit to account
 		//Make a transaction history
 		//make a su9mmary etc
+		fundTransferVO=customerService.executeTransaction(fundTransferVO);
+		//Email and SMS functionality
+		model.addAttribute("fundTransferVO", fundTransferVO);
 		return "customer/fundSummary";
 	}
 	

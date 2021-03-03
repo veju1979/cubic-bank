@@ -1,5 +1,7 @@
 package com.rab3tech.vo;
 
+import java.sql.Timestamp;
+
 public class FundTransferVO {
 	private String sfromAccount;
 	private String stoAccount;
@@ -8,7 +10,26 @@ public class FundTransferVO {
 	private String remarks;
 	private double amount;
 	private int otp;
+	private Timestamp dot;
+	private String transactionId;
 	
+	
+
+	public Timestamp getDot() {
+		return dot;
+	}
+
+	public void setDot(Timestamp dot) {
+		this.dot = dot;
+	}
+
+	public String getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
+	}
 
 	public String getSfromAccount() {
 		return sfromAccount;
