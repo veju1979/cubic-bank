@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Customer Dashboard Page</title>
+  <title>Customer Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  
+
   <style>
 .ffooter {
   position: fixed;
@@ -21,6 +21,16 @@
   text-align: center;
   height: 30px;
   background-color:#e9ffe7;
+}
+.zoom {
+  padding: 10px;
+  transition: transform .2s; /* Animation */
+  height: 250px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(4.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 </style>
 </head>
@@ -53,15 +63,54 @@
 <button type="button" class="btn btn-danger">Account Summary</button>
 </a>
 
+
 <a th:href="@{/customer/profile}">
 <button type="button" class="btn btn-primary">Profile</button>
 </a>
 
+
  <a th:href="@{/customer/logout}"><button type="button" class="btn btn-warning">Logout</button></a>
  <br/>
-  <img th:src="@{/images/customer_dashboard.jpg}" alt="page"/>
+  <img th:src="@{/images/customer-en.png}" alt="page" style="height: 100px;"/>
    <span th:utext="${error}" style="color: red;font-size: 18px;"></span>
   <div style="width: 70%">
+         <p>Customer Details:</p>  
+
+  <form th:action="@{/customer/profile/photo}" method="POST"  enctype="multipart/form-data">
+    <input type="hidden" name="cid" th:value="${customerVO.id}">              
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>Name</td>
+       <td th:text="${customerVO.name}"/>
+      </tr>
+      <tr>
+        <td>Email</td>
+       <td th:text="${customerVO.email}"/>
+      </tr>
+      <tr>
+        <td>User Name : </td>
+         <td th:text="${customerVO.userid}"/>
+      </tr>
+       <tr>
+        <td>Job Title : </td>
+         <td th:text="${customerVO.jobTitle}"/>
+      </tr>
+       <tr>
+        <td>Photo : </td>
+         <td>
+           <img class="zoom" th:src="@{'/customer/profile/photo?cid=' + ${customerVO.id}}" style="height: 120px;"/>
+          <input type="file" name="pppppphoto" style="background-color: pink;"/>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+   <button type="submit" class="btn btn-primary">Upload</button>
+     <a th:href="@{/customer/profile/edit}">
+ 	 <button type="button" class="btn btn-danger">Edit</button>
+  </a>
+  </form>
+  <hr/>
   </div>
 </div>
 <footer  class="ffooter">

@@ -31,4 +31,5 @@ public class SpringBootRunner  {
 		SpringApplication.run(SpringBootRunner.class, args);
 	}
 	
+	
 }
